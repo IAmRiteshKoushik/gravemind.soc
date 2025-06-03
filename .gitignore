@@ -1,0 +1,8 @@
+tmp/
+bin/
+
+db/
+
+config.toml
+
+*.log
