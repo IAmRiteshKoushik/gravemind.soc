@@ -8,6 +8,8 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Function which can check whether the Pirates of Issuebian badge is to be
+// given out or not
 func CheckIssuebian(username string) (bool, error) {
 	sets := []string{
 		cmd.CppRank,
@@ -23,6 +25,7 @@ func CheckIssuebian(username string) (bool, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
 	for _, set := range sets {
 		prMergeCount, err := cmd.Valkey.ZScore(ctx, set, username).Result()
 		if err == redis.Nil {
@@ -38,7 +41,7 @@ func CheckIssuebian(username string) (bool, error) {
 	return false, nil
 }
 
-func CheckLanguage(username string, board string) (int, bool, error) {
+func FindPrCount(username string, board string) (int, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -65,4 +68,18 @@ func IncrPrCount(username string, board string) error {
 		return err
 	}
 	return nil
+}
+
+func FindRank(username string) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	rank, err := cmd.Valkey.ZRank(ctx, cmd.Leaderboard, username).Result()
+	if err == redis.Nil {
+		return 0, nil
+	}
+	if err != nil {
+		return 0, err
+	}
+	return int(rank), nil
 }
