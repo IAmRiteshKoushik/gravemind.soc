@@ -40,7 +40,7 @@ func isValidHost(value any) error {
 
 func (e *EnvConfig) Validate() error {
 	return v.ValidateStruct(e,
-		v.Field(&e.Environment, v.Required.v.In("development", "production")),
+		v.Field(&e.Environment, v.Required, v.In("development", "production")),
 		v.Field(&e.RedisHost, v.Required, v.By(isValidHost)),
 		v.Field(&e.RedisPort, v.Required),
 		v.Field(&e.RedisUsername),
@@ -66,8 +66,8 @@ func SetupEnv() error {
 		Environment:   viper.GetString("environment"),
 		RedisHost:     viper.GetString("redis.host"),
 		RedisPort:     viper.GetInt("redis.port"),
-		RedisUsername: viper.GetInt("redis.username"),
-		RedisPassword: viper.GetInt("redis.password"),
+		RedisUsername: viper.GetString("redis.username"),
+		RedisPassword: viper.GetString("redis.password"),
 		DatabaseUrl:   viper.GetString("database.url"),
 	}
 	if err := App.Validate(); err != nil {
