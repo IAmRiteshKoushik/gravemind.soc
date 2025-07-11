@@ -1,4 +1,4 @@
-package pkg
+package cmd
 
 const (
 	IssueClaim      = "issue-stream"
