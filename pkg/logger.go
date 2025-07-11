@@ -51,6 +51,14 @@ func (l *LoggerService) Info(msg string) {
 	l.log.WithLevel(zerolog.InfoLevel).Msg(msg)
 }
 
-func (l *LoggerService) Fail(msg string, err error) {
+func (l *LoggerService) Warn(msg string) {
+	l.log.WithLevel(zerolog.WarnLevel).Msg(msg)
+}
+
+func (l *LoggerService) Error(msg string, err error) {
 	l.log.WithLevel(zerolog.ErrorLevel).Err(err).Msg(msg)
+}
+
+func (l *LoggerService) Fatal(msg string) {
+	l.log.WithLevel(zerolog.FatalLevel).Msg(msg)
 }
