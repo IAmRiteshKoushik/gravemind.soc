@@ -9,7 +9,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func AddStreak(username string) error {
+func AddEnamouredStreak(username string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -25,7 +25,7 @@ func AddStreak(username string) error {
 	return nil
 }
 
-func CheckStreak(username string) (int, bool, error) {
+func CheckEnamouredStreak(username string) (int, bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
