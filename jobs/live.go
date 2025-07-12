@@ -33,7 +33,7 @@ func WriteToStream(username string, message string, eventType string) error {
 	defer cancel()
 	err = cmd.Valkey.XAdd(ctx, &redis.XAddArgs{
 		Stream: "live-update-stream",
-		Values: map[string]interface{}{
+		Values: map[string]any{
 			"data": string(data),
 		},
 	}).Err()
