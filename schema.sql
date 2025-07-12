@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS user_account(
   email TEXT NOT NULL,
   ghUsername TEXT NOT NULL UNIQUE,
   status BOOLEAN DEFAULT true,
+  stack TEXT[],
   bounty INT NOT NULL DEFAULT 0,
   refresh_token TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
