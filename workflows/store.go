@@ -248,3 +248,40 @@ func JobCheckEnamouredSet(streamId string) {
 func ProcessedPullRequest(streamId string) {
 	complete("pull_request_workflow", "processed", streamId)
 }
+
+func ReadLastEntry(table string) (string, error) {
+	if localDb == nil {
+		return "", fmt.Errorf("database is not initialized. Call InitSQLite first")
+	}
+
+	var tableName string
+	switch table {
+	case "bounty":
+		tableName = "bounty_workflow"
+	case "pull_request":
+		tableName = "pull_request_workflow"
+	case "achievement":
+		tableName = "achievement_workflow"
+	default:
+		return "", fmt.Errorf("failed to read entry: unknown table identifier '%s'", table)
+	}
+
+	var streamID string
+	query := fmt.Sprintf(`SELECT stream_id FROM %s ORDER BY id DESC LIMIT 1`, tableName)
+
+	row := localDb.QueryRowContext(context.Background(), query)
+	err := row.Scan(&streamID)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// This means the table is empty
+			cmd.Log.Info(fmt.Sprintf("No entries found in table '%s'.", tableName))
+			return "", err
+		}
+		cmd.Log.Error(fmt.Sprintf("Failed to read last entry from '%s'", tableName), err)
+		return "", err
+	}
+
+	cmd.Log.Info(fmt.Sprintf("Successfully read last stream_id '%s' from table '%s'.", streamID, tableName))
+	return streamID, nil
+}
