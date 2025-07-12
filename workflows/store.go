@@ -165,7 +165,7 @@ func complete(tableName, fieldName, streamId string) {
 		fieldName)
 	result, err := localDb.ExecContext(context.Background(), query, streamId)
 	if err != nil {
-		cmd.Log.Error(fmt.Sprintf("Failed to update %s.%s for stream_id %s: %v",
+		cmd.Log.Error(fmt.Sprintf("Failed to update %s.%s for stream_id %s",
 			tableName, fieldName, streamId), err)
 		return
 	}
