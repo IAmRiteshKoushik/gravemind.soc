@@ -19,6 +19,7 @@ type EnvConfig struct {
 	RedisUsername string
 	RedisPassword string
 	DatabaseUrl   string
+	GitHubToken   string
 }
 
 func isValidHost(value any) error {
@@ -46,6 +47,7 @@ func (e *EnvConfig) Validate() error {
 		v.Field(&e.RedisUsername),
 		v.Field(&e.RedisPassword),
 		v.Field(&e.DatabaseUrl, v.Required, is.URL),
+		v.Field(&e.GitHubToken, v.Required),
 	)
 }
 
@@ -69,6 +71,7 @@ func SetupEnv() error {
 		RedisUsername: viper.GetString("redis.username"),
 		RedisPassword: viper.GetString("redis.password"),
 		DatabaseUrl:   viper.GetString("database.url"),
+		GitHubToken:   viper.GetString("github.personal_access_token"),
 	}
 	if err := App.Validate(); err != nil {
 		return err

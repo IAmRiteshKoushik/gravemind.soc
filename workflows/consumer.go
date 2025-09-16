@@ -31,7 +31,7 @@ type Solution struct {
 func ReadBountyStream() {
 	id, err := ReadLastEntry("bounty")
 	if err != nil {
-		cmd.Log.Error("Could not locate last entry", err)
+		cmd.Log.Error("Could not locate last entry bounty-stream", err)
 		id = "$"
 	}
 
@@ -80,7 +80,7 @@ func ReadBountyStream() {
 func ReadAchivementStream() {
 	id, err := ReadLastEntry("achievement")
 	if err != nil {
-		cmd.Log.Error("Could not locate last entry", err)
+		cmd.Log.Error("Could not locate last entry in achievement-stream", err)
 		id = "$"
 	}
 
@@ -129,7 +129,7 @@ func ReadAchivementStream() {
 func ReadSolutionStream() {
 	id, err := ReadLastEntry("pull_request")
 	if err != nil {
-		cmd.Log.Error("Could not locate last entry", err)
+		cmd.Log.Error("Could not locate last entry in solution-stream", err)
 		id = "$"
 	}
 
